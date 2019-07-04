@@ -9,13 +9,13 @@ import pandas as pd
 import numpy as np
 
 regular_season_df = pd.read_csv("C:/Users/Radin/Downloads/Data Science/DataFilesMM/RegularSeasonDetailedResults.csv")
-regular_season_df['WPoss']  = regular_season_df['WFGA'] 
-                                + regular_season_df['WTO'] 
-                                + 0.44*regular_season_df['WFTA'] 
+regular_season_df['WPoss']  = regular_season_df['WFGA'] \
+                                + regular_season_df['WTO'] \
+                                + 0.44*regular_season_df['WFTA'] \
                                 - regular_season_df['WOR']
-regular_season_df['LPoss']  = regular_season_df['LFGA'] 
-                                + regular_season_df['LTO'] 
-                                + 0.44*regular_season_df['LFTA'] 
+regular_season_df['LPoss']  = regular_season_df['LFGA'] \
+                                + regular_season_df['LTO'] \
+                                + 0.44*regular_season_df['LFTA'] \
                                 - regular_season_df['LOR']
 
 end_of_season_stats = pd.DataFrame()
@@ -59,3 +59,48 @@ for year in years:
         oppo_TOVpct = (sum(wins.LTO) + sum(losses.WTO)) / (sum(wins.WPoss) + sum(losses.LPoss))
         oppo_ORBpct = (sum(wins.LOR) + sum(losses.WOR)) / (sum(wins.LOR) + sum(losses.WOR) + sum(wins.WDR) + sum(losses.LDR))
         oppoFTperFG = (sum(wins.LFTM) + sum(losses.WFTM)) / (sum(wins.LFGA) + sum(losses.WFGA))
+      
+        
+        
+        
+        
+        
+        team_df = pd.DataFrame({'Season':year
+                            ,'teamID':team
+                            ,'team_W':team_W
+                            ,'team_L':team_L
+                            ,'team_G':team_G 
+                            ,'team_W-Lpct' : team_W/team_G
+                            ,'team_Pace':team_Pace
+                            ,'team_Ortg':team_Ortg
+                            ,'team_Drtg':team_Drtg
+                            ,'team_FTr':team_FTr
+                            ,'team_3PAr':team_3PAr
+                            ,'team_TSpct':team_TSpct
+                            ,'team_TRBpct':team_TRBpct
+                            ,'team_ASTpct':team_ASTpct
+                            ,'team_STLpct':team_STLpct
+                            ,'team_BLKpct':team_BLKpct
+                            ,'team_eFGpct':team_eFGpct
+                            ,'team_TOVpct':team_TOVpct
+                            ,'team_ORBpct':team_ORBpct
+                            ,'teamFTperFG':teamFTperFG
+                            ,'oppo_Pace':oppo_Pace
+                            ,'oppo_Ortg':oppo_Ortg
+                            ,'oppo_Drtg':oppo_Drtg
+                            ,'oppo_FTr':oppo_FTr
+                            ,'oppo_3PAr':oppo_3PAr
+                            ,'oppo_TSpct':oppo_TSpct
+                            ,'oppo_TRBpct':oppo_TRBpct
+                            ,'oppo_ASTpct':oppo_ASTpct
+                            ,'oppo_STLpct':oppo_STLpct
+                            ,'oppo_BLKpct':oppo_BLKpct
+                            ,'oppo_eFGpct':oppo_eFGpct
+                            ,'oppo_TOVpct':oppo_TOVpct
+                            ,'oppo_ORBpct':oppo_ORBpct
+                            ,'oppoFTperFG':oppoFTperFG}
+                            , index=[0])   
+        end_of_season_stats = end_of_season_stats.append(team_df)
+    print(year)
+    
+end_of_season_stats.to_csv("C:/Users/Radin/Documents/MarchMadness2019/end_of_season_stats.csv", index=False)
