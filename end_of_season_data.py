@@ -8,7 +8,7 @@ Created on Thu Jul  4 16:01:18 2019
 import pandas as pd
 import numpy as np
 
-regular_season_df = pd.read_csv("C:/Users/Radin/Downloads/Data Science/DataFilesMM/RegularSeasonDetailedResults.csv")
+regular_season_df = pd.read_csv("C:/Users/Radin/Documents/MarchMadness2019/Stage2DataFiles/RegularSeasonDetailedResults.csv")
 regular_season_df['WPoss']  = regular_season_df['WFGA'] \
                                 + regular_season_df['WTO'] \
                                 + 0.44*regular_season_df['WFTA'] \
