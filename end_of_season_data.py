@@ -103,4 +103,4 @@ for year in years:
         end_of_season_stats = end_of_season_stats.append(team_df)
     print(year)
     
-end_of_season_stats.to_csv("C:/Users/Radin/Documents/MarchMadness2019/end_of_season_stats.csv", index=False)
+end_of_season_stats.to_csv("C:/Users/Radin/Documents/MarchMadness2019/end_of_season_stats.csv")
