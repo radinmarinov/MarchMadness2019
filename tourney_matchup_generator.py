@@ -76,7 +76,7 @@ tourney_matchup_df                  = tourney_matchup_df.rename(index= str, colu
 
 #Add differences in stats as a stat
 end_of_season_stats_df_stat_list.append('seed')
-for stat in end_of_season_stats_df_stat_list[1:len(end_of_season_stats_df_stat_list)]:
+for stat in end_of_season_stats_df_stat_list[2:len(end_of_season_stats_df_stat_list)]:
     tourney_matchup_df['diff_' + stat] = tourney_matchup_df['Team1_' + stat] - tourney_matchup_df['Team2_' + stat]
 
 #Add conferences
