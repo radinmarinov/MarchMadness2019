@@ -151,3 +151,48 @@ def season_simulator(year):
                     
 test_season = season_simulator(2019)
 test_season = pd.merge(test_season, teams_df, how= 'left', left_on=['Winner'], right_on=['TeamID'])              
+
+
+##################
+#Kaggle Submission
+##################
+def get_probability_kaggle(team1, team2, year, model):
+    matchup1 = create_matchup(team1, team2, year, conferences_df)
+    matchup2 = create_matchup(team2, team1, year, conferences_df)
+    
+    stats = list(tourney_matchup_df)[4:len(list(tourney_matchup_df))]
+
+    mlp= model[0]
+    scaler = model[1]
+    X_test1 = matchup1[stats]
+    X_test1 = scaler.transform(X_test1)
+    probabilities_mlp1 = mlp.predict_proba(X_test1)
+    
+    X_test2 = matchup2[stats]
+    X_test2 = scaler.transform(X_test2)
+    probabilities_mlp2 = mlp.predict_proba(X_test2)
+    
+    return (probabilities_mlp1[0][1] + probabilities_mlp2[0][0]) / 2
+
+def kaggle_submission(year):
+    season = slots_df[slots_df.Season == year]
+    teams = list(season.TeamID_x)
+    teams.extend(list(season.TeamID_y))
+    teams = pd.unique(teams)
+    teams = [x for x in teams if str(x) != 'nan']
+    teams = sorted(teams)
+    teams = np.asarray(teams)
+    model = get_model(year)
+    submission = pd.DataFrame({'id': [],'pred':[]})
+    for team1 in teams:
+        team2s = teams[teams>team1]
+        for team2 in team2s:
+            id_ = str(year) + '_'+ str(team1)[0:4] + '_' + str(team2)[0:4]
+            pred = get_probability_kaggle(team1, team2, year, model)
+            submission = submission.append(pd.DataFrame({'id': id_
+                           ,'pred':pred}, index=[0]))
+            print(id_)
+    return submission
+
+s = kaggle_submission(2019)
+s.to_csv("C:/Users/Radin/Documents/MarchMadness2019/predictions.csv", index=False)         
